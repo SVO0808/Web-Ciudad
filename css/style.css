@@ -1,0 +1,147 @@
+/* GENERAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'lato', sans-serif;
+    color: rgb(255, 255, 255);
+    background-color: var(--color-background);
+    list-style: none;
+    text-decoration: none;
+}
+
+html {
+    scroll-behavior: smooth;
+    width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cinzel Decorative', cursive;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+body {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+    width: 100%;
+}
+
+main {
+    width: 100%
+}
+
+/* HEADER */
+header {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-background);
+    padding: 0 35px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.logo {
+    width: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 60px;
+    max-height: 100%;
+    width: auto;
+    display: block;
+}
+
+.bars {
+    display: none;
+}
+
+.nav_bar ul {
+    display: flex;
+}
+
+.nav_bar ul li a {
+    display: block;
+    color: var(--color-light);
+    font-size: 18px;
+    padding: 10px 25px;
+    border-radius: 15px;
+    transition: 0.5s;
+    margin: 0 5px;
+}
+
+.nav_bar ul li a:hover {
+    background-color: var(--color-primary);
+}
+
+.nav_bar ul li a.active {
+    background-color: var(--color-secondary);
+}
+
+.nav_bar ul li a.active:hover {
+    background-color: var(--color-primary);
+}
+
+@media (max-width: 900px) {
+
+    header {
+        padding: 0 30px;
+    }
+
+    .bars {
+        display: block;
+        cursor: pointer;
+    }
+
+    .bars .line {
+        width: 30px;
+        height: 3px;
+        background-color: var(--color-light);
+        margin: 6px 0;
+    }
+
+    .nav_bar {
+        height: 0px;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        background-color: var(--color-background);
+        transition: 0.5s;
+        overflow: hidden;
+    }
+
+    .nav_bar.active {
+        height: 450px;
+    }
+
+    .nav_bar ul {
+        display: block;
+        width: fit-content;
+        margin: 80px auto 0 auto;
+        text-align: center;
+        transition: 0.5s;
+        opacity: 0;
+    }
+
+    .nav_bar.active ul {
+        opacity: 1;
+    }
+
+    .nav_bar ul li a {
+        margin-bottom: 20px;
+    }
+}
