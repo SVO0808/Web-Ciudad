@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'lato', sans-serif;
+    font-family: 'montserrat', sans-serif;
     color: rgb(255, 255, 255);
     background-color: var(--color-background);
     list-style: none;
@@ -16,7 +16,7 @@ html {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cinzel Decorative', cursive;
+    font-family: 'Playfair Display', cursive;
     font-weight: 600;
     color: var(--color-primary);
 }
