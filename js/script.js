@@ -1,7 +1,7 @@
-// NAVBAR RESPONSIVE
-const bars = document.querySelector('.bars');
-const navBar = document.querySelector('.nav_bar');
+// Header
 
-bars.addEventListener('click', () => {
+bars = document.querySelector('.bars');
+bars.onclick = function() {
+    navBar = document.querySelector('.nav_bar');
     navBar.classList.toggle('active');
-});
+}

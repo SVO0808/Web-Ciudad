@@ -9,7 +9,7 @@
     --blanco: #FFFFFF;
 
     --font-titulo: 'Playfair Display', serif;
-    --font-texto: 'Inter', sans-serif;
+    --font-texto: 'Montserrat', sans-serif;
 }
 
 /* ------------------------------------------------------ */
@@ -44,26 +44,40 @@ h1, h2, h3 {
     margin: 0 auto;
 }
 
-/* HEADER */
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* ------------------------------------------------------ */
+/* HEADER                                                 */
+/* ------------------------------------------------------ */
 header {
     width: 100%;
     height: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--color-background);
     padding: 0 35px;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
+    background-color: var(--azul-claro);
 }
 
 .logo {
-    width: auto;
     height: 100%;
+    width: auto;
     display: flex;
     align-items: center;
+}
+
+.logo > a{
+    color: var(--gris-claro);
 }
 
 .bars {
@@ -76,7 +90,7 @@ header {
 
 .nav_bar ul li a {
     display: block;
-    color: var(--color-light);
+    color: var(--gris-oscuro);
     font-size: 18px;
     padding: 10px 25px;
     border-radius: 15px;
@@ -85,76 +99,27 @@ header {
 }
 
 .nav_bar ul li a:hover {
-    background-color: var(--color-primary);
+    background-color: var(--azul-claro);
+    color: var(--blanco);
 }
 
 .nav_bar ul li a.active {
-    background-color: var(--color-secondary);
+    background-color: var(--azul-oscuro);
+    color: var(--blanco);
 }
 
 .nav_bar ul li a.active:hover {
-    background-color: var(--color-primary);
-}
-
-@media (max-width: 900px) {
-
-    header {
-        padding: 0 30px;
-    }
-
-    .bars {
-        display: block;
-        cursor: pointer;
-    }
-
-    .bars .line {
-        width: 30px;
-        height: 3px;
-        background-color: var(--color-light);
-        margin: 6px 0;
-    }
-
-    .nav_bar {
-        height: 0px;
-        position: absolute;
-        top: 80px;
-        left: 0;
-        right: 0;
-        width: 100vw;
-        background-color: var(--color-background);
-        transition: 0.5s;
-        overflow: hidden;
-    }
-
-    .nav_bar.active {
-        height: 450px;
-    }
-
-    .nav_bar ul {
-        display: block;
-        width: fit-content;
-        margin: 80px auto 0 auto;
-        text-align: center;
-        transition: 0.5s;
-        opacity: 0;
-    }
-
-    .nav_bar.active ul {
-        opacity: 1;
-    }
-
-    .nav_bar ul li a {
-        margin-bottom: 20px;
-    }
+    background-color: var(--azul-claro);
+    color: var(--blanco);
 }
 
 /* ------------------------------------------------------ */
-/* HERO                                                    */
+/* HERO                                                   */
 /* ------------------------------------------------------ */
 #hero {
     position: relative;
-    height: 70vh;
-    background: url('../img/hero.jpg') center/cover no-repeat;
+    height: 100vh;
+    background: url(https://picsum.photos/seed/picsum/200/300) center/cover no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -188,7 +153,6 @@ header {
     padding: 12px 30px;
     border-radius: 4px;
     color: var(--blanco);
-    text-decoration: none;
     font-weight: 600;
     transition: .25s;
 }
@@ -263,67 +227,73 @@ header {
 }
 
 /* ------------------------------------------------------ */
-/* RESPONSIVE                                              */
+/* RESPONSIVE         */
 /* ------------------------------------------------------ */
-
-/* Tablets */
 @media (max-width: 900px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
+
+    header {
+        padding: 0 30px;
     }
-}
 
-/* Móviles */
-@media (max-width: 900px) {
-
-    /* Mostrar hamburguesa */
+    /* Botón hamburguesa */
     .bars {
         display: block;
         cursor: pointer;
+        background-color: transparent;
+        border: none;
     }
 
-    /* Menú móvil (oculto por defecto) */
+    .bars .line {
+        display: block;
+        width: 30px;
+        height: 3px;
+        background-color: var(--gris-claro);
+        margin: 6px 0;
+    }
+
+    /* Menú móvil */
     .nav_bar {
         height: 0;
         overflow: hidden;
         position: absolute;
         top: 80px;
         left: 0;
-        width: 100%;
-        background: var(--blanco);
-        border-bottom: 1px solid #ddd;
+        right: 0;
+        width: 100vw;
         transition: 0.4s;
     }
 
-    /* Al activar menú */
     .nav_bar.active {
-        height: 280px;
+        height: 200px;
+        background-color: var(--azul-claro);
     }
 
     .nav_bar ul {
         display: block;
         text-align: center;
+        justify-content: center;
         opacity: 0;
-        margin-top: 40px;
+        margin-top: 80px auto 0 auto;
         transition: .4s;
     }
 
     .nav_bar.active ul {
         opacity: 1;
+        padding-top: 40px;
     }
 
     .nav_bar ul li a {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
+        color: var(--gris-claro);
     }
 
-    /* Grid en una columna */
+    /* Grid responsive */
     .grid {
         grid-template-columns: 1fr;
     }
 
-    /* Hero más pequeño */
     #hero {
-        height: 55vh;
+        height: 100vh;
     }
 
     #hero-content h1 {
