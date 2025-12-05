@@ -6,71 +6,41 @@ bars.onclick = function() {
     navBar.classList.toggle('active');
 }
 
-// =======================================
-// CONFIGURACIÓN — OPORTO
-// =======================================
-const LAT = 41.1496;   // latitud Oporto
-const LON = -8.6109;   // longitud Oporto
+const LAT = 41.1496;
+const LON = -8.6109;
 
+$(document).ready(() => loadWeather());
 
-
-// =======================================
-// AL CARGAR LA PÁGINA
-// =======================================
-$(document).ready(() => {
-    loadWeather();
-});
-
-
-
-// =======================================
-// 1. CARGAR CLIMA ACTUAL (Open-Meteo)
-// =======================================
 function loadWeather() {
 
     $.ajax({
-        url: `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,wind_speed_10m&hourly=temperature_2m&daily=temperature_2m_max,temperature_2m_min&timezone=auto`,
+        url: `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=auto`,
         method: "GET",
 
         success: function(data) {
 
-            // Datos actuales reales
-            const temp = data.current.temperature_2m;
-            const wind = data.current.wind_speed_10m;
-
             $("#weather-city").text("Oporto");
-            $("#weather-temp").text(temp + "°C");
-            $("#weather-desc").text("Viento: " + wind + " km/h");
+            $("#weather-temp").text(data.current.temperature_2m + "°C");
+            $("#weather-desc").text("Viento: " + data.current.wind_speed_10m + " km/h");
 
-            // Pronóstico y gráfico
             showForecast(data.daily);
             drawChart(data.daily);
-        },
-
-        error: function() {
-            alert("Error obteniendo el clima real");
         }
     });
 }
 
-
-
-// =======================================
-// 2. TARJETAS PRONÓSTICO REAL + FECHA FORMATEADA
-// =======================================
 function showForecast(daily) {
 
     const container = $("#forecast-cards");
     container.empty();
 
-    const days = daily.time;  
+    const dates = daily.time;
     const maxTemps = daily.temperature_2m_max;
     const minTemps = daily.temperature_2m_min;
 
     for (let i = 0; i < 4; i++) {
 
-        // Formato: 05/12/25
-        const formattedDate = new Date(days[i]).toLocaleDateString("es-ES", {
+        const formatted = new Date(dates[i]).toLocaleDateString("es-ES", {
             day: "2-digit",
             month: "2-digit",
             year: "2-digit"
@@ -78,7 +48,7 @@ function showForecast(daily) {
 
         container.append(`
             <div class="forecast-card">
-                <p>${formattedDate}</p>
+                <p>${formatted}</p>
                 <p>${maxTemps[i]}°C / ${minTemps[i]}°C</p>
                 <small>Máx / Mín</small>
             </div>
@@ -86,18 +56,12 @@ function showForecast(daily) {
     }
 }
 
-
-
-// =======================================
-// 3. GRÁFICO REAL CON FECHAS FORMATEADAS
-// =======================================
 let weatherChart;
 
 function drawChart(daily) {
 
-    const rawDates = daily.time;
-    const labels = rawDates.map(date =>
-        new Date(date).toLocaleDateString("es-ES", {
+    const dates = daily.time.map(d =>
+        new Date(d).toLocaleDateString("es-ES", {
             day: "2-digit",
             month: "2-digit",
             year: "2-digit"
@@ -114,27 +78,73 @@ function drawChart(daily) {
     weatherChart = new Chart(ctx, {
         type: "line",
         data: {
-            labels,
+            labels: dates,
             datasets: [
                 {
-                    label: "Temp. Máxima (°C)",
+                    label: "Temperatura Máxima",
                     data: maxTemps,
                     borderColor: "#1F3C73",
-                    backgroundColor: "rgba(31, 60, 115, 0.2)",
-                    borderWidth: 2,
+                    backgroundColor: "#1F3C73",
+                    pointRadius: 14,
+                    pointHoverRadius: 18,
+                    pointBackgroundColor: "#1F3C73",
+                    pointBorderColor: "#ffffff",
+                    pointBorderWidth: 3,
                     tension: 0.3
                 },
                 {
-                    label: "Temp. Mínima (°C)",
+                    label: "Temperatura Mínima",
                     data: minTemps,
                     borderColor: "#5A7DBE",
-                    backgroundColor: "rgba(90, 125, 190, 0.2)",
-                    borderWidth: 2,
+                    backgroundColor: "#5A7DBE",
+                    pointRadius: 14,
+                    pointHoverRadius: 18,
+                    pointBackgroundColor: "#5A7DBE",
+                    pointBorderColor: "#ffffff",
+                    pointBorderWidth: 3,
                     tension: 0.3
                 }
             ]
-        }
+        },
+        options: {
+            plugins: {
+                legend: { display: false }
+            }
+        },
+        plugins: [{
+            id: 'labels',
+            afterDatasetsDraw(chart) {
+                const { ctx } = chart;
+
+                chart.data.datasets.forEach((ds, dsIndex) => {
+                    chart.getDatasetMeta(dsIndex).data.forEach((pt, i) => {
+                        ctx.save();
+                        ctx.fillStyle = "#ffffff";
+                        ctx.font = "600 12px Inter";
+                        ctx.textAlign = "center";
+                        ctx.textBaseline = "middle";
+                        ctx.fillText(ds.data[i], pt.x, pt.y);
+                        ctx.restore();
+                    });
+                });
+            }
+        }]
+    });
+
+    const legend = $("#chart-legend");
+    legend.empty();
+
+    weatherChart.data.datasets.forEach((ds, index) => {
+        const button = $(`<button>${ds.label}</button>`);
+
+        button.on("click", () => {
+            const visible = weatherChart.isDatasetVisible(index);
+            weatherChart.setDatasetVisibility(index, !visible);
+            weatherChart.update();
+
+            button.toggleClass("inactive", visible);
+        });
+
+        legend.append(button);
     });
 }
-
-

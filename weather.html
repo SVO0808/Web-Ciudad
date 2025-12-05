@@ -35,21 +35,27 @@
     </header>
 
 
-    <!-- SECCIÓN DEL CLIMA -->
+
+    <!-- CONTENIDO CLIMA -->
     <section id="weather-section">
         <div class="section-inner">
 
             <h2>Clima en Oporto</h2>
 
             <div id="weather-current">
-                <h3 id="weather-city">Oporto</h3>
+                <h3 id="weather-city">—</h3>
                 <p id="weather-temp">—°C</p>
                 <p id="weather-desc">—</p>
             </div>
 
             <h3 style="margin-top:40px;">Pronóstico próximos días</h3>
+
             <div id="forecast-cards"></div>
 
+            <!-- LEYENDA PERSONALIZADA -->
+            <div id="chart-legend" class="chart-legend"></div>
+
+            <!-- GRÁFICO -->
             <canvas id="weatherChart"></canvas>
 
         </div>
