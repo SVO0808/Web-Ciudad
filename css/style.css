@@ -306,87 +306,55 @@ header {
 
 
 
-
-/* ============================= */
-/*     PÁGINA DEL CLIMA          */
-/* ============================= */
+/* ------------------------------------------------------ */
+/* CLIMA — BLOQUE PRINCIPAL                               */
+/* ------------------------------------------------------ */
 
 #weather-section {
     padding: 120px 0 60px;
 }
 
+/* Fondo con fotos dinámicas */
 #weather-current {
-    margin-top: 20px;
-    background: var(--gris-claro);
-    padding: 25px;
-    border-radius: 10px;
-    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 320px;
+    border-radius: 14px;
+    padding: 30px;
+    color: var(--blanco);
+    transition: 0.4s ease;
+    background-size: cover;
+    background-position: center;
+}
+
+#weather-current::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    border-radius: 14px;
+    z-index: 1;
+}
+
+#weather-current * {
+    position: relative;
+    z-index: 2;
+}
+
+#weather-current h3 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: var(--azul-claro);
 }
 
 #weather-current p {
-    margin: 5px 0;
-    font-size: 1.2rem;
+    text-shadow: 0 2px 6px rgba(255, 255, 255, 0.55);
 }
 
-#forecast-cards {
-    margin-top: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 20px;
-}
-
-.forecast-card {
-    background: var(--gris-claro);
-    padding: 15px;
-    border-radius: 10px;
-    text-align: center;
-}
-
-.forecast-card img {
-    width: 50px;
-    height: 50px;
-    margin: 0 auto;
-}
-
-#weatherChart {
-    margin-top: 40px;
-}
 /* ------------------------------------------------------ */
-/* CLIMA — ESTILOS MEJORADOS                              */
+/* TARJETAS PRONÓSTICO                                    */
 /* ------------------------------------------------------ */
 
-#weather-section {
-    padding: 120px 0 60px;
-    animation: fadeIn 0.6s ease;
-}
-
-#weather-current {
-    background: var(--gris-claro);
-    padding: 30px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-    transition: 0.3s ease;
-}
-
-#weather-current:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-}
-
-#weather-temp {
-    font-size: 2.6rem;
-    font-weight: 600;
-    color: var(--azul-oscuro);
-}
-
-#weather-desc {
-    margin-top: 5px;
-    color: var(--gris-oscuro);
-    font-size: 1.1rem;
-}
-
-/* Tarjetas del pronóstico */
 #forecast-cards {
     margin-top: 30px;
     display: grid;
@@ -401,7 +369,6 @@ header {
     text-align: center;
     box-shadow: 0 3px 10px rgba(0,0,0,0.08);
     transition: 0.3s ease;
-    cursor: pointer;
 }
 
 .forecast-card:hover {
@@ -410,12 +377,14 @@ header {
     color: var(--blanco);
 }
 
-/* Leyenda del gráfico */
+/* ------------------------------------------------------ */
+/* LEYENDA PERSONALIZADA                                  */
+/* ------------------------------------------------------ */
+
 .chart-legend {
     display: flex;
     gap: 12px;
-    margin-top: 30px;
-    margin-bottom: 20px;
+    margin: 30px 0 20px;
 }
 
 .chart-legend button {

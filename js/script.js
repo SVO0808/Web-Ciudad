@@ -9,12 +9,33 @@ bars.onclick = function() {
 const LAT = 41.1496;
 const LON = -8.6109;
 
+const weatherIcons = {
+    0: "Sunny.jpg",
+    1: "Sunny.jpg",
+    2: "Partly.jpg",
+    3: "Clouded.jpg",
+    45: "Foggy.jpg",
+    48: "Foggy.jpg",
+    51: "Rainy.jpg",
+    53: "Rainy.jpg",
+    55: "Rainy.jpg",
+    61: "Rainy.jpg",
+    63: "Rainy.jpg",
+    65: "Rainy.jpg",
+    80: "Rainy.jpg",
+    81: "Rainy.jpg",
+    82: "Rainy.jpg",
+    95: "Storm.jpg",
+    96: "Storm.jpg",
+    99: "Storm.jpg",
+};
+
 $(document).ready(() => loadWeather());
 
 function loadWeather() {
 
     $.ajax({
-        url: `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=auto`,
+        url: `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,weathercode,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=auto`,
         method: "GET",
 
         success: function(data) {
@@ -22,6 +43,11 @@ function loadWeather() {
             $("#weather-city").text("Oporto");
             $("#weather-temp").text(data.current.temperature_2m + "°C");
             $("#weather-desc").text("Viento: " + data.current.wind_speed_10m + " km/h");
+
+            const wcode = data.current.weathercode;
+            const bg = weatherIcons[wcode] || "Partly.jpg";
+
+            $("#weather-current").css("background-image", `url('img/weather/${bg}')`);
 
             showForecast(data.daily);
             drawChart(data.daily);
@@ -60,7 +86,7 @@ let weatherChart;
 
 function drawChart(daily) {
 
-    const dates = daily.time.map(d =>
+    const labels = daily.time.map(d =>
         new Date(d).toLocaleDateString("es-ES", {
             day: "2-digit",
             month: "2-digit",
@@ -78,7 +104,7 @@ function drawChart(daily) {
     weatherChart = new Chart(ctx, {
         type: "line",
         data: {
-            labels: dates,
+            labels,
             datasets: [
                 {
                     label: "Temperatura Máxima",
@@ -106,16 +132,11 @@ function drawChart(daily) {
                 }
             ]
         },
-        options: {
-            plugins: {
-                legend: { display: false }
-            }
-        },
+        options: { plugins: { legend: { display: false } } },
         plugins: [{
             id: 'labels',
             afterDatasetsDraw(chart) {
                 const { ctx } = chart;
-
                 chart.data.datasets.forEach((ds, dsIndex) => {
                     chart.getDatasetMeta(dsIndex).data.forEach((pt, i) => {
                         ctx.save();
@@ -141,7 +162,6 @@ function drawChart(daily) {
             const visible = weatherChart.isDatasetVisible(index);
             weatherChart.setDatasetVisibility(index, !visible);
             weatherChart.update();
-
             button.toggleClass("inactive", visible);
         });
 
