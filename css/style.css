@@ -300,3 +300,55 @@ header {
         font-size: 2.3rem;
     }
 }
+
+
+
+
+
+
+
+/* ============================= */
+/*     PÁGINA DEL CLIMA          */
+/* ============================= */
+
+#weather-section {
+    padding: 120px 0 60px;
+}
+
+#weather-current {
+    margin-top: 20px;
+    background: var(--gris-claro);
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#weather-current p {
+    margin: 5px 0;
+    font-size: 1.2rem;
+}
+
+#forecast-cards {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 20px;
+}
+
+.forecast-card {
+    background: var(--gris-claro);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.forecast-card img {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+}
+
+#weatherChart {
+    margin-top: 40px;
+}
+
