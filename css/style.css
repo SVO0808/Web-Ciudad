@@ -119,28 +119,40 @@ header {
 #hero {
     position: relative;
     height: 100vh;
-    background: url(https://picsum.photos/seed/picsum/200/300) center/cover no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 1s ease-in-out;
+    padding-top: 80px; /* altura del header */
+
 }
+
 
 #hero-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.35);
+    background: linear-gradient(
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.25)
+    );
+    z-index: 1;
 }
 
 #hero-content {
-    position: relative;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
     color: var(--blanco);
-    padding: 0 20px;
+    z-index: 2;
 }
 
 #hero-content h1 {
     font-size: 3rem;
     margin-bottom: 10px;
+    color: var(--blanco);
+    z-index: 2;
 }
 
 #hero-content p {
@@ -344,7 +356,8 @@ header {
 #weather-current h3 {
     font-size: 2.5rem;
     margin-bottom: 10px;
-    color: var(--azul-claro);
+    color: var(--blanco);
+    
 }
 
 #weather-current p {

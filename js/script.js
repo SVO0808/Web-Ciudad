@@ -168,3 +168,32 @@ function drawChart(daily) {
         legend.append(button);
     });
 }
+
+
+
+
+$(document).ready(function() {
+
+    // Array de imágenes del carrusel
+    const heroImages = [
+        'img/all/home1.jpg',
+        'img/all/home2.jpg',
+        'img/all/home3.jpg',
+        'img/all/home4.jpg'
+    ];
+
+    let index = 0;
+
+    function changeHeroBackground() {
+        index = (index + 1) % heroImages.length;
+
+        $('#hero').css('background-image', 'url(' + heroImages[index] + ')');
+    }
+
+    // Setea la primera imagen correctamente
+    $('#hero').css('background-image', 'url(' + heroImages[0] + ')');
+
+    // Cambia imagen cada 5s
+    setInterval(changeHeroBackground, 5000);
+
+});
