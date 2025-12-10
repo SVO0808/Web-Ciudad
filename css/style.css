@@ -179,6 +179,10 @@ header {
 #intro {
     padding: 60px 0;
     text-align: center;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 #intro p {
@@ -191,6 +195,8 @@ header {
 /* ------------------------------------------------------ */
 #destacados {
     padding: 60px 0;
+    height: 50vh;
+    background-color: var(--azul-claro);
 }
 
 .grid {
@@ -434,7 +440,8 @@ header {
 
 #tips {
     padding: 70px 0;
-    background: var(--azul-claro);
+    background: var(--blanco);
+    height: 50vh;
 }
 
 #tips h2 {
