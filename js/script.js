@@ -304,3 +304,38 @@ $(document).ready(function () {
     });
 
 });
+
+
+$(function () {
+
+  // Abrir modal
+  $('.gallery-grid').on('click', '.card', function () {
+    var img = $(this).find('img').attr('src');
+    var title = $(this).attr('data-title') || '';
+    var price = $(this).attr('data-price') || '';
+
+    $('#modal-img').attr('src', img).attr('alt', title);
+    $('#modal-title').text(title);
+    $('#modal-price').text(price);
+
+    $('#gallery-modal').attr('aria-hidden', 'false');
+    $('body').css('overflow', 'hidden');
+  });
+
+  // Cerrar modal
+  $('#gallery-modal .modal-close, #gallery-modal').on('click', function (e) {
+    if ($(e.target).is('#modal-img') || $(e.target).is('.modal-inner')) return;
+
+    $('#gallery-modal').attr('aria-hidden', 'true');
+    $('body').css('overflow', 'auto');
+  });
+
+  // Cerrar con ESC
+  $(document).on('keydown', function (e) {
+    if (e.key === "Escape") {
+      $('#gallery-modal').attr('aria-hidden', 'true');
+      $('body').css('overflow', 'auto');
+    }
+  });
+
+});
