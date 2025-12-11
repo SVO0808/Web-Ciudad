@@ -197,3 +197,110 @@ $(document).ready(function() {
     setInterval(changeHeroBackground, 5000);
 
 });
+
+/* ------------------------------------------------------ */
+/* TIPS CAROUSEL — jQuery (versión centrada desde inicio) */
+/* ------------------------------------------------------ */
+
+$(document).ready(function () {
+
+    const $carousel = $(".tips-carousel");
+    const $slidesOriginal = $(".tip-slide");
+    const total = $slidesOriginal.length;
+
+    // Clonamos al principio y al final para infinito
+    $carousel.append($slidesOriginal.clone());
+    $carousel.prepend($slidesOriginal.clone());
+
+    let index = total; // posición inicial real (centro)
+    let slideWidth;
+
+    function recalcWidth() {
+        slideWidth = $(".tip-slide").outerWidth(true);
+    }
+
+    function updateTransform(animate = true) {
+        const offset = -(index * slideWidth);
+        if (!animate) {
+            $carousel.css("transition", "none");
+            $carousel.css("transform", `translateX(${offset}px)`);
+            // Forzamos reflow para que la transición vuelva a funcionar
+            $carousel[0].offsetHeight;
+            $carousel.css("transition", "transform .45s ease");
+        } else {
+            $carousel.css("transform", `translateX(${offset}px)`);
+        }
+    }
+
+    // Hacemos el primer cálculo después del render real
+    setTimeout(() => {
+        recalcWidth();
+        updateTransform(false); // sin animación para que arranque centrado real
+        updateDots();
+    }, 30);
+
+    // ---- DOTS ----
+    const $dots = $(".tips-dots");
+    for (let i = 0; i < total; i++) {
+        $dots.append(`<button data-i="${i}"></button>`);
+    }
+
+    function updateDots() {
+        const active = index % total;
+        $(".tips-dots button").removeClass("active");
+        $(".tips-dots button").eq(active).addClass("active");
+    }
+
+    $(".tips-dots button").click(function () {
+        index = Number($(this).data("i")) + total;
+        updateTransform();
+        updateDots();
+    });
+
+    // ---- FLECHAS ----
+    $(".tips-prev").click(() => advance(-1));
+    $(".tips-next").click(() => advance(1));
+
+    function advance(dir) {
+        index += dir;
+
+        // Rebote infinito
+        if (index < 0) index = total - 1;
+        if (index >= total * 3) index = total * 2;
+
+        updateTransform();
+        updateDots();
+    }
+
+    // ---- AUTOPLAY ----
+    let autoplay;
+    function startAutoplay() {
+        autoplay = setInterval(() => advance(1), 3000);
+    }
+    function stopAutoplay() {
+        clearInterval(autoplay);
+    }
+    startAutoplay();
+
+    $(".tips-carousel-outer").hover(stopAutoplay, startAutoplay);
+
+    // ---- SWIPE ----
+    let startX = 0;
+
+    $carousel.on("touchstart", e => {
+        startX = e.touches[0].clientX;
+    });
+
+    $carousel.on("touchend", e => {
+        const diff = e.changedTouches[0].clientX - startX;
+        if (diff > 50) advance(-1);
+        if (diff < -50) advance(1);
+    });
+
+    // ---- RESIZE ----
+    $(window).on("resize", () => {
+        recalcWidth();
+        updateTransform(false);
+    });
+
+});

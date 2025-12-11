@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
@@ -90,36 +90,110 @@
     <section id="tips">
         <div class="section-inner">
             <h2>Consejos para tu visita</h2>
-
-            <div class="tips-grid">
-
-                <article class="tip-card">
-                    <div class="tip-icon">🚌</div>
-                    <h3>Cómo moverte</h3>
-                    <p>El tranvía y el metro son las mejores opciones para recorrer Oporto sin complicaciones.</p>
-                </article>
-
-                <article class="tip-card">
-                    <div class="tip-icon">🌅</div>
-                    <h3>Atardecer perfecto</h3>
-                    <p>Sube al Miradouro da Vitória o cruza a Gaia para ver el puente iluminado.</p>
-                </article>
-
-                <article class="tip-card">
-                    <div class="tip-icon">🍽️</div>
-                    <h3>Dónde comer bien</h3>
-                    <p>Busca restaurantes locales fuera de la Ribeira para precios mejores y comida auténtica.</p>
-                </article>
-
-                <article class="tip-card">
-                    <div class="tip-icon">⚠️</div>
-                    <h3>Qué evitar</h3>
-                    <p>Evita taxis caros en zonas turísticas; usa apps o transporte público.</p>
-                </article>
-
-            </div>
         </div>
+
+        <!-- Carrusel full-width -->
+        <div class="tips-carousel-outer">
+
+            <button class="tips-arrow tips-prev">‹</button>
+
+            <div class="tips-carousel-wrapper">
+                <div class="tips-carousel">
+
+                    <!-- 10 tarjetas -->
+                    <div class="tip-slide">
+                        <div class="tip-card">
+                            <div class="tip-icon">🚌</div>
+                            <h3>Cómo moverte</h3>
+                            <p>El tranvía y el metro son ideales para recorrer Oporto sin complicaciones.</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-slide">
+                        <div class="tip-card">
+                            <div class="tip-icon">🌅</div>
+                            <h3>Atardecer perfecto</h3>
+                            <p>Ve a Gaia para ver el puente Don Luis I iluminado al anochecer.</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-slide">
+                        <div class="tip-card">
+                            <div class="tip-icon">🍽️</div>
+                            <h3>Dónde comer</h3>
+                            <p>Aléjate de la Ribeira si quieres comida auténtica y precios mejores.</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-slide">
+                        <div class="tip-card">
+                            <div class="tip-icon">⚠️</div>
+                            <h3>Evita taxis caros</h3>
+                            <p>Usa apps de transporte o el metro para ahorrar dinero.</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-slide">
+                        <div class="tip-card">
+                            <div class="tip-icon">🏞️</div>
+                            <h3>Miradores ocultos</h3>
+                            <p>Descubre el Miradouro das Fontaínhas para vistas menos turísticas.</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-slide">
+                        <div class="tip-card">
+                            <div class="tip-icon">🍷</div>
+                            <h3>Prueba vinos locales</h3>
+                            <p>Las bodegas de Gaia ofrecen catas económicas y auténticas.</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-slide">
+                        <div class="tip-card">
+                            <div class="tip-icon">🚶</div>
+                            <h3>Camina el centro</h3>
+                            <p>Las calles estrechas del casco antiguo se disfrutan mejor a pie.</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-slide">
+                        <div class="tip-card">
+                            <div class="tip-icon">🏛️</div>
+                            <h3>Arquitectura</h3>
+                            <p>No te pierdas la Casa da Música y la estación de São Bento.</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-slide">
+                        <div class="tip-card">
+                            <div class="tip-icon">⛵</div>
+                            <h3>Paseo en barco</h3>
+                            <p>Haz el recorrido de los seis puentes al atardecer para la mejor luz.</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-slide">
+                        <div class="tip-card">
+                            <div class="tip-icon">🛍️</div>
+                            <h3>Zonas comerciales</h3>
+                            <p>Santa Catarina tiene tiendas locales interesantes y cafés clásicos.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <button class="tips-arrow tips-next">›</button>
+        </div>
+
+        <div class="section-inner">
+            <div class="tips-dots"></div>
+        </div>
+
     </section>
+
+
 
     <!-- FOOTER -->
     <footer id="footer">

@@ -544,68 +544,141 @@ header {
 }
 
 /* ------------------------------------------------------ */
-/* TIPS                                                   */
+/* TIPS — NUEVO CARRUSEL FULL-WIDTH                       */
 /* ------------------------------------------------------ */
+
 #tips {
-    padding: 70px 3vw;
-    height: auto;
-    box-sizing: border-box;
+    padding: 70px 0;
 }
 
 #tips h2 {
-    text-align: center;
-    margin-bottom: 35px;
     color: var(--azul-oscuro);
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin: 0;
+    text-align: center;
 }
 
-.tips-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
+/* El carrusel ocupa 100vw real */
+.tips-carousel-outer {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding: 25px 0;
 }
 
+/* Área que recorta el carrusel */
+.tips-carousel-wrapper {
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Carrusel interno */
+.tips-carousel {
+    display: flex;
+    gap: 28px;
+    padding: 15px 0;
+    transition: transform .45s ease;
+}
+
+/* Slides */
+.tip-slide {
+    min-width: 300px;
+    flex: 0 0 auto;
+}
+
+/* Tarjetas */
 .tip-card {
     background: var(--blanco);
     padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
     text-align: center;
     transition: .3s ease;
 }
 
 .tip-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.18);
 }
 
 .tip-icon {
     font-size: 2rem;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .tip-card h3 {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     margin-bottom: 10px;
     color: var(--azul-oscuro);
 }
 
 .tip-card p {
     font-size: .95rem;
-    line-height: 1.4;
+    line-height: 1.45;
 }
 
-/* Responsive tips */
+/* Flechas */
+.tips-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--azul-claro);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 50;
+    transition: .2s ease;
+}
+
+.tips-arrow:hover {
+    background: var(--azul-oscuro);
+}
+
+.tips-prev { left: 10px; }
+.tips-next { right: 10px; }
+
+/* Dots */
+.tips-dots {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.tips-dots button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    background: #bbb;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.tips-dots button.active {
+    background: var(--azul-oscuro);
+}
+
+/* Responsive */
 @media (max-width: 900px) {
-    .tips-grid {
-        grid-template-columns: 1fr 1fr;
+    .tip-slide {
+        min-width: 240px;
     }
 }
 
 @media (max-width: 600px) {
-    .tips-grid {
-        grid-template-columns: 1fr;
+    .tip-slide {
+        min-width: 85%;
     }
 }
+
 
 /* ------------------------------------------------------ */
 /* ÚLTIMAS PROTECCIONES                                   */
