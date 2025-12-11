@@ -199,47 +199,76 @@ $(document).ready(function() {
 });
 
 /* ------------------------------------------------------ */
-/* TIPS CAROUSEL — jQuery (versión centrada desde inicio) */
+/* TIPS CAROUSEL — jQuery (Infinite real, no jumps)       */
 /* ------------------------------------------------------ */
 
 $(document).ready(function () {
 
     const $carousel = $(".tips-carousel");
-    const $slidesOriginal = $(".tip-slide");
-    const total = $slidesOriginal.length;
+    const $originalSlides = $(".tip-slide");
+    const total = $originalSlides.length;
 
-    // Clonamos al principio y al final para infinito
-    $carousel.append($slidesOriginal.clone());
-    $carousel.prepend($slidesOriginal.clone());
+    let index = total; // zona segura inicial
+    let slideWidth = 0;
 
-    let index = total; // posición inicial real (centro)
-    let slideWidth;
+    // -----------------------------
+    // 1) CLONADO PROFUNDO (∞ real)
+    // -----------------------------
+    // Clonamos 3 veces delante y 3 veces detrás
+    for (let i = 0; i < 3; i++) {
+        $carousel.append($originalSlides.clone());
+        $carousel.prepend($originalSlides.clone());
+    }
 
+    // Recalcular slideWidth cuando exista el layout real
     function recalcWidth() {
         slideWidth = $(".tip-slide").outerWidth(true);
     }
 
-    function updateTransform(animate = true) {
-        const offset = -(index * slideWidth);
+    // -----------------------------
+    // 2) MOVER CARRUSEL
+    // -----------------------------
+    function move(animate = true) {
         if (!animate) {
             $carousel.css("transition", "none");
-            $carousel.css("transform", `translateX(${offset}px)`);
-            // Forzamos reflow para que la transición vuelva a funcionar
+        } else {
+            $carousel.css("transition", "transform .45s ease");
+        }
+
+        const offset = -(index * slideWidth);
+        $carousel.css("transform", `translateX(${offset}px)`);
+
+        if (!animate) {
+            // Forzar reflow para reactivar animaciones
             $carousel[0].offsetHeight;
             $carousel.css("transition", "transform .45s ease");
-        } else {
-            $carousel.css("transform", `translateX(${offset}px)`);
         }
     }
 
-    // Hacemos el primer cálculo después del render real
-    setTimeout(() => {
-        recalcWidth();
-        updateTransform(false); // sin animación para que arranque centrado real
-        updateDots();
-    }, 30);
+    // -----------------------------
+    // 3) ZONA SEGURA
+    // -----------------------------
+    // Como clonamos 3 veces, las zonas límites:
+    const SAFE_MIN = total;             // primer bloque real
+    const SAFE_MAX = total * 4 - 1;     // último bloque real
 
-    // ---- DOTS ----
+    function normalize() {
+        // Si salimos por la izquierda
+        if (index < SAFE_MIN) {
+            index += total;
+            move(false); // recolocación invisible
+        }
+
+        // Si salimos por la derecha
+        if (index > SAFE_MAX) {
+            index -= total;
+            move(false); // recolocación invisible
+        }
+    }
+
+    // -----------------------------
+    // 4) DOTS
+    // -----------------------------
     const $dots = $(".tips-dots");
     for (let i = 0; i < total; i++) {
         $dots.append(`<button data-i="${i}"></button>`);
@@ -251,59 +280,113 @@ $(document).ready(function () {
         $(".tips-dots button").eq(active).addClass("active");
     }
 
-    $(".tips-dots button").click(function () {
-        index = Number($(this).data("i")) + total;
-        updateTransform();
+    $dots.on("click", "button", function () {
+        index = Number($(this).data("i")) + total * 2; // saltamos al bloque del medio
+        move();
         updateDots();
     });
 
-    // ---- FLECHAS ----
+    // -----------------------------
+    // 5) FLECHAS
+    // -----------------------------
     $(".tips-prev").click(() => advance(-1));
     $(".tips-next").click(() => advance(1));
 
     function advance(dir) {
         index += dir;
-
-        // Rebote infinito
-        if (index < 0) index = total - 1;
-        if (index >= total * 3) index = total * 2;
-
-        updateTransform();
+        move();
+        normalize();
         updateDots();
     }
 
-    // ---- AUTOPLAY ----
+    // -----------------------------
+    // 6) AUTOPLAY
+    // -----------------------------
     let autoplay;
+
     function startAutoplay() {
         autoplay = setInterval(() => advance(1), 3000);
     }
+
     function stopAutoplay() {
         clearInterval(autoplay);
     }
+
     startAutoplay();
 
     $(".tips-carousel-outer").hover(stopAutoplay, startAutoplay);
 
-    // ---- SWIPE ----
+    // -----------------------------
+    // 7) SWIPE TOUCH
+    // -----------------------------
     let startX = 0;
 
     $carousel.on("touchstart", e => {
         startX = e.touches[0].clientX;
+        stopAutoplay();
     });
 
     $carousel.on("touchend", e => {
         const diff = e.changedTouches[0].clientX - startX;
         if (diff > 50) advance(-1);
         if (diff < -50) advance(1);
+        startAutoplay();
     });
 
-    // ---- RESIZE ----
+   // -----------------------------
+   // 8) INICIO — centrado REAL DEFINITIVO
+   // -----------------------------
+$(window).on("load", function () {
+
+    // Esperamos a que todo (fuentes, imágenes, layout) esté listo
+    setTimeout(() => {
+        recalcWidth();
+
+        // Posición ultrasegura del carrusel infinito
+        index = total * 2;
+
+        // Colocación SIN ANIMACIÓN
+        move(false);
+
+        // Actualizamos dots
+        updateDots();
+    }, 60);
+});
+
+
+    // -----------------------------
+    // 9) RESIZE FIX
+    // -----------------------------
     $(window).on("resize", () => {
         recalcWidth();
-        updateTransform(false);
+        move(false);
     });
 
 });
+
+// Same height cards
+
+function equalizeTipHeights() {
+    let max = 0;
+
+    $(".tip-card").css("height", "auto"); // resetea
+
+    $(".tip-card").each(function() {
+        const h = $(this).outerHeight();
+        if (h > max) max = h;
+    });
+
+    $(".tip-card").css("height", max + "px");
+}
+
+// Ejecutar al cargar y al redimensionar
+$(window).on("load resize", equalizeTipHeights);
+
+
+
+/* ------------------------------------------------------ */
+/* MANSORY GALLERY                                       */
+/* ------------------------------------------------------ */
 
 
 $(function () {

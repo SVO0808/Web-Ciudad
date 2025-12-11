@@ -585,8 +585,8 @@ header {
 
 /* Slides */
 .tip-slide {
-    min-width: 300px;
-    flex: 0 0 auto;
+    width: 320px;
+    flex: 0 0 320px;
 }
 
 /* Tarjetas */
@@ -669,13 +669,15 @@ header {
 /* Responsive */
 @media (max-width: 900px) {
     .tip-slide {
-        min-width: 240px;
+        width: 260px;
+        flex: 0 0 260px;
     }
 }
 
 @media (max-width: 600px) {
     .tip-slide {
-        min-width: 85%;
+        width: 85%;
+        flex: 0 0 85%;
     }
 }
 
