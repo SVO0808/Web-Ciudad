@@ -324,20 +324,95 @@ header {
 }
 
 /* ------------------------------------------------------ */
-/* FOOTER                                                 */
+/* FOOTER GENÉRICO                                         */
 /* ------------------------------------------------------ */
-#footer {
-    background: var(--gris-claro);
-    padding: 30px 0;
-    text-align: center;
-    font-size: 0.9rem;
-    color: #666;
 
-    position: relative;
-    bottom: auto;
+#footer {
+    background: #f1f1f1;
+    color: #444;
+    padding-top: 60px;
     width: 100%;
-    margin-top: 0px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    margin-top: 80px;
 }
+
+.footer-container {
+    width: min(1300px, 92%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 45px;
+    padding-bottom: 40px;
+}
+
+.footer-col h3.footer-brand {
+    font-size: 1.55rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--azul-oscuro);
+}
+
+.footer-col h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--azul-oscuro);
+}
+
+.footer-col p,
+.footer-col span {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #555;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 8px;
+}
+
+.footer-col a {
+    font-size: 0.95rem;
+    color: #555;
+    text-decoration: none;
+    transition: 0.25s ease;
+}
+
+.footer-col a:hover {
+    color: var(--azul-claro);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 18px 0;
+    background: rgba(0,0,0,0.05);
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .footer-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}
+
+
 
 /* ------------------------------------------------------ */
 /* MENÚ MÓVIL: columna centrada (fix definitivo)         */
@@ -851,7 +926,7 @@ main, .section-inner {
 .reveal {
     opacity: 0;
     transform: translateY(20px);
-    filter: blur(6px);
+    filter: blur(5px);
     transition:
         opacity .8s ease-out,
         transform .8s ease-out,
