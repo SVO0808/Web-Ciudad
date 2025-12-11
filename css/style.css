@@ -8,7 +8,7 @@
     --gris-oscuro: #1A1A1A;
     --blanco: #FFFFFF;
 
-    --font-titulo: 'Playfair Display', serif;
+    --font-titulo: 'Barlow Semi Condensed', sans-serif;
     --font-texto: 'Montserrat', sans-serif;
 }
 
@@ -21,11 +21,30 @@
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
 body {
     font-family: var(--font-texto);
     background: var(--blanco);
     color: var(--gris-oscuro);
     line-height: 1.6;
+    max-width: 100vw;
+    overflow-x: hidden;
+
+    /* flujo normal para que hero y footer se comporten bien */
+    display: block;
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 30px; /* espacio para el footer */
+}
+
+/* Evitar solapes por posicionamiento anterior */
+section, #intro, #destacados, #tips, #weather-section {
+    position: relative;
+    z-index: 0;
 }
 
 img {
@@ -40,7 +59,7 @@ h1, h2, h3 {
 }
 
 .section-inner {
-    width: min(1100px, 90%);
+    width: min(1500px, 95%);
     margin: 0 auto;
 }
 
@@ -76,16 +95,22 @@ header {
     align-items: center;
 }
 
-.logo > a{
+.logo > a {
     color: var(--gris-claro);
 }
 
+/* hamburger (por defecto oculto en desktop) */
 .bars {
     display: none;
+    background: none;
+    border: none;
+    padding: 8px;
 }
 
+/* nav principal (desktop) */
 .nav_bar ul {
     display: flex;
+    align-items: center;
 }
 
 .nav_bar ul li a {
@@ -124,9 +149,8 @@ header {
     background-repeat: no-repeat;
     transition: background-image 1s ease-in-out;
     padding-top: 80px; /* altura del header */
-
+    overflow: hidden;
 }
-
 
 #hero-overlay {
     position: absolute;
@@ -140,23 +164,25 @@ header {
 
 #hero-content {
     position: absolute;
-    top: 40%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
     color: var(--blanco);
     z-index: 2;
+    width: 100%;
+    padding: 0 3vw;
 }
 
 #hero-content h1 {
-    font-size: 3rem;
+    font-size: clamp(2.6rem, 6vw, 5rem);
     margin-bottom: 10px;
     color: var(--blanco);
-    z-index: 2;
+    line-height: 1.05;
 }
 
 #hero-content p {
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2.2vw, 1.6rem);
     margin-bottom: 20px;
 }
 
@@ -167,6 +193,7 @@ header {
     color: var(--blanco);
     font-weight: 600;
     transition: .25s;
+    display: inline-block;
 }
 
 .btn:hover {
@@ -174,29 +201,55 @@ header {
 }
 
 /* ------------------------------------------------------ */
-/* INTRO                                                   */
+/* INTRO — TEXTO FLUIDO & CENTRADO                        */
 /* ------------------------------------------------------ */
 #intro {
-    padding: 60px 0;
-    text-align: center;
-    height: 50vh;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center; /* centrado vertical relativo al padding */
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+    min-height: 50vh;
+}
+
+#intro h2 {
+    font-size: clamp(2.4rem, 5vw, 4.8rem);
+    color: var(--azul-oscuro);
+    margin: 0;
 }
 
 #intro p {
-    width: min(700px, 90%);
-    margin: 15px auto 0 auto;
+    width: 100%;
+    max-width: 850px;
+    margin: 15px auto 0;
+    padding: 0 8px;
+    font-size: clamp(1.1rem, 2.2vw, 1.8rem);
+    line-height: 1.45;
+    box-sizing: border-box;
+    text-align: center;
+    word-break: break-word;
 }
 
 /* ------------------------------------------------------ */
-/* DESTACADOS                                              */
+/* DESTACADOS                                             */
 /* ------------------------------------------------------ */
 #destacados {
-    padding: 60px 0;
-    height: 50vh;
+    padding-top: 100px;
+    padding-bottom: 120px;
     background-color: var(--azul-claro);
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+#destacados h2 {
+    color: var(--blanco);
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin: 0;
+    text-align: center;
 }
 
 .grid {
@@ -204,6 +257,8 @@ header {
     display: grid;
     gap: 25px;
     grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .card {
@@ -220,32 +275,72 @@ header {
 }
 
 .card img {
-    height: 180px;
+    height: 260px;
     object-fit: cover;
+    width: 100%;
+    display: block;
 }
 
 .card h3 {
     padding: 15px;
+    font-size: 1.25rem;
 }
 
 .card p {
     padding: 0 15px 20px;
-    font-size: 0.95rem;
+    font-size: 1rem;
+}
+
+/* En pantallas muy grandes hacemos las cards aún más grandes */
+@media (min-width: 1400px) {
+    .card img {
+        height: 320px;
+    }
+
+    .grid {
+        gap: 35px;
+    }
+
+    .section-inner {
+        width: min(1800px, 96%);
+    }
+}
+
+/* Tablet y móvil = 1 columna (eliminamos 2 columnas intermedias) */
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: 1fr !important;
+        gap: 25px;
+    }
+
+    #destacados {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+
+    .card img {
+        height: 220px;
+    }
 }
 
 /* ------------------------------------------------------ */
-/* FOOTER                                                  */
+/* FOOTER                                                 */
 /* ------------------------------------------------------ */
 #footer {
     background: var(--gris-claro);
-    padding: 20px 0;
+    padding: 30px 0;
     text-align: center;
     font-size: 0.9rem;
     color: #666;
+
+    position: relative;
+    bottom: auto;
+    width: 100%;
+    margin-top: 0px;
 }
 
 /* ------------------------------------------------------ */
-/* RESPONSIVE         */
+/* MENÚ MÓVIL: columna centrada (fix definitivo)         */
 /* ------------------------------------------------------ */
 @media (max-width: 900px) {
 
@@ -253,86 +348,103 @@ header {
         padding: 0 30px;
     }
 
-    /* Botón hamburguesa */
+    /* Mostrar botón hamburguesa */
     .bars {
-        display: block;
+        display: block !important;
         cursor: pointer;
-        background-color: transparent;
+        background: none;
         border: none;
+        z-index: 10001;
+        position: relative;
     }
 
     .bars .line {
-        display: block;
         width: 30px;
         height: 3px;
         background-color: var(--gris-claro);
         margin: 6px 0;
-    }
-
-    /* Menú móvil */
-    .nav_bar {
-        height: 0;
-        overflow: hidden;
-        position: absolute;
-        top: 80px;
-        left: 0;
-        right: 0;
-        width: 100vw;
-        transition: 0.4s;
-    }
-
-    .nav_bar.active {
-        height: 200px;
-        background-color: var(--azul-claro);
-    }
-
-    .nav_bar ul {
         display: block;
-        text-align: center;
+    }
+
+    /* Nav como panel fijo que ocupa el espacio bajo el header */
+    .nav_bar {
+        position: fixed !important;
+        top: 80px !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 0; /* cerrado por defecto */
+        overflow: hidden !important;
+        background-color: var(--azul-claro);
+        transition: height 0.32s ease;
+        z-index: 10000 !important;
+        display: flex;
+        align-items: center;
         justify-content: center;
+    }
+
+    /* Abierto: ocupa toda la altura disponible (menos header) */
+    .nav_bar.active {
+        height: 250px !important;
+        overflow: visible !important;
+    }
+
+    /* Lista en columna y centrada */
+    .nav_bar ul {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 18px;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+        width: 100%;
         opacity: 0;
-        margin-top: 80px auto 0 auto;
-        transition: .4s;
+        transition: opacity 0.25s ease 0.08s;
     }
 
     .nav_bar.active ul {
         opacity: 1;
-        padding-top: 40px;
+    }
+
+    .nav_bar ul li {
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
     .nav_bar ul li a {
-        margin-bottom: 20px;
+        display: inline-block;
+        padding: 14px 12px;
+        font-size: 1.15rem;
         color: var(--gris-claro);
+        width: auto;
+        border-radius: 8px;
     }
 
-    /* Grid responsive */
-    .grid {
-        grid-template-columns: 1fr;
+    .nav_bar ul li a.active {
+        background: rgba(255,255,255,0.08);
+        color: var(--blanco);
     }
 
-    #hero {
-        height: 100vh;
+    /* Evitar scroll de fondo cuando menú abierto (tu JS puede añadir la clase) */
+    body.menu-open {
+        overflow: hidden;
+        touch-action: none;
     }
 
+    /* Ajuste hero font-size en móvil */
     #hero-content h1 {
-        font-size: 2.3rem;
+        font-size: clamp(2rem, 6vw, 3rem);
     }
 }
-
-
-
-
-
 
 /* ------------------------------------------------------ */
 /* CLIMA — BLOQUE PRINCIPAL                               */
 /* ------------------------------------------------------ */
-
 #weather-section {
     padding: 120px 0 60px;
 }
 
-/* Fondo con fotos dinámicas */
 #weather-current {
     position: relative;
     overflow: hidden;
@@ -363,7 +475,6 @@ header {
     font-size: 2.5rem;
     margin-bottom: 10px;
     color: var(--blanco);
-    
 }
 
 #weather-current p {
@@ -371,9 +482,8 @@ header {
 }
 
 /* ------------------------------------------------------ */
-/* TARJETAS PRONÓSTICO                                    */
+/* PRONÓSTICO TARJETAS                                    */
 /* ------------------------------------------------------ */
-
 #forecast-cards {
     margin-top: 30px;
     display: grid;
@@ -399,7 +509,6 @@ header {
 /* ------------------------------------------------------ */
 /* LEYENDA PERSONALIZADA                                  */
 /* ------------------------------------------------------ */
-
 .chart-legend {
     display: flex;
     gap: 12px;
@@ -429,25 +538,24 @@ header {
     opacity: 0.5;
 }
 
-/* Animación suave */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(15px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
-
-/* TIPS */
-
+/* ------------------------------------------------------ */
+/* TIPS                                                   */
+/* ------------------------------------------------------ */
 #tips {
-    padding: 70px 0;
-    background: var(--blanco);
-    height: 50vh;
+    padding: 70px 3vw;
+    height: auto;
+    box-sizing: border-box;
 }
 
 #tips h2 {
     text-align: center;
     margin-bottom: 35px;
-    color: var(--blanco);
+    color: var(--azul-oscuro);
 }
 
 .tips-grid {
@@ -483,11 +591,10 @@ header {
 
 .tip-card p {
     font-size: .95rem;
-    color: var(--gris-oscuro);
     line-height: 1.4;
 }
 
-/* Responsive */
+/* Responsive tips */
 @media (max-width: 900px) {
     .tips-grid {
         grid-template-columns: 1fr 1fr;
@@ -498,4 +605,11 @@ header {
     .tips-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* ------------------------------------------------------ */
+/* ÚLTIMAS PROTECCIONES                                   */
+/* ------------------------------------------------------ */
+main, .section-inner {
+    overflow: visible;
 }
