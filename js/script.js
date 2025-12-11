@@ -422,3 +422,25 @@ $(function () {
   });
 
 });
+
+
+/* ------------------------------------------------------ */
+/* SCROLL REVEAL OBSERVER                                */
+/* ------------------------------------------------------ */
+
+document.addEventListener("DOMContentLoaded", () => {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                // Una vez visible, no la volvemos a ocultar
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.12,       // Se activa cuando entra un 12% del elemento
+        rootMargin: "0px 0px -10% 0px" // Lo hace todavía más suave
+    });
+
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+});
